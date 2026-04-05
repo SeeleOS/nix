@@ -11,7 +11,7 @@ use cfg_if::cfg_if;
 
 #[cfg(all(feature = "mount", bsd))]
 use crate::mount::MntFlags;
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", target_os = "seele"))]
 use crate::sys::statvfs::FsFlags;
 use crate::{errno::Errno, NixPath, Result};
 
@@ -55,16 +55,16 @@ type fs_type_t = u32;
 #[cfg(target_os = "android")]
 type fs_type_t = libc::c_ulong;
 #[cfg(all(
-    target_os = "linux",
+    any(target_os = "linux", target_os = "seele"),
     target_arch = "s390x"
 ))]
 type fs_type_t = libc::c_uint;
-#[cfg(all(target_os = "linux", any(target_env = "musl", target_env = "ohos"), not(target_arch = "s390x")))]
+#[cfg(all(any(target_os = "linux", target_os = "seele"), any(target_env = "musl", target_env = "ohos"), not(target_arch = "s390x")))]
 type fs_type_t = libc::c_ulong;
-#[cfg(all(target_os = "linux", target_env = "uclibc"))]
+#[cfg(all(any(target_os = "linux", target_os = "seele"), target_env = "uclibc"))]
 type fs_type_t = libc::c_int;
 #[cfg(all(
-    target_os = "linux",
+    any(target_os = "linux", target_os = "seele"),
     not(any(
         target_arch = "s390x",
         target_env = "musl",
@@ -80,11 +80,11 @@ type fs_type_t = libc::c_long;
 #[cfg(any(
     target_os = "freebsd",
     target_os = "android",
-    all(target_os = "linux", target_arch = "s390x"),
-    all(target_os = "linux", target_env = "musl"),
-    all(target_os = "linux", target_env = "ohos"),
+    all(any(target_os = "linux", target_os = "seele"), target_arch = "s390x"),
+    all(any(target_os = "linux", target_os = "seele"), target_env = "musl"),
+    all(any(target_os = "linux", target_os = "seele"), target_env = "ohos"),
     all(
-        target_os = "linux",
+        any(target_os = "linux", target_os = "seele"),
         not(any(target_arch = "s390x", target_env = "musl"))
     ),
     target_os = "cygwin",

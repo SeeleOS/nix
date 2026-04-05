@@ -29,6 +29,7 @@ cfg_if! {
             unsafe { libc::__errno() }
         }
     } else if #[cfg(any(target_os = "linux",
+                        target_os = "seele",
                         target_os = "redox",
                         target_os = "dragonfly",
                         target_os = "fuchsia",
@@ -826,14 +827,14 @@ fn desc(errno: Errno) -> &'static str {
         ENOTRECOVERABLE => "Lock is not recoverable",
 
         #[cfg(any(
-            all(target_os = "linux", not(target_arch = "mips")),
+            not(any(target_os = "android", target_arch = "mips")),
             target_os = "fuchsia",
             target_os = "emscripten",
         ))]
         ERFKILL => "Operation not possible due to RF-kill",
 
         #[cfg(any(
-            all(target_os = "linux", not(target_arch = "mips")),
+            not(any(target_os = "android", target_arch = "mips")),
             target_os = "fuchsia",
             target_os = "emscripten",
         ))]
