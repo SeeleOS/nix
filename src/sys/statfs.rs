@@ -326,7 +326,7 @@ impl Statfs {
 
     /// Optimal transfer block size
     #[cfg(all(
-        target_os = "linux",
+        any(target_os = "linux", target_os = "seele"),
         target_arch = "s390x"
     ))]
     pub fn optimal_transfer_size(&self) -> u32 {
@@ -336,8 +336,8 @@ impl Statfs {
     /// Optimal transfer block size
     #[cfg(any(
         target_os = "android",
-        all(target_os = "linux", target_env = "musl", not(target_arch = "s390x")),
-        all(target_os = "linux", target_env = "ohos")
+        all(any(target_os = "linux", target_os = "seele"), target_env = "musl", not(target_arch = "s390x")),
+        all(any(target_os = "linux", target_os = "seele"), target_env = "ohos")
     ))]
     pub fn optimal_transfer_size(&self) -> libc::c_ulong {
         self.0.f_bsize
@@ -345,7 +345,7 @@ impl Statfs {
 
     /// Optimal transfer block size
     #[cfg(all(
-        target_os = "linux",
+        any(target_os = "linux", target_os = "seele"),
         not(any(
             target_arch = "s390x",
             target_env = "musl",
@@ -358,7 +358,7 @@ impl Statfs {
     }
 
     /// Optimal transfer block size
-    #[cfg(all(target_os = "linux", target_env = "uclibc"))]
+    #[cfg(all(any(target_os = "linux", target_os = "seele"), target_env = "uclibc"))]
     pub fn optimal_transfer_size(&self) -> libc::c_int {
         self.0.f_bsize
     }
@@ -384,7 +384,7 @@ impl Statfs {
     /// Size of a block
     // f_bsize on linux: https://github.com/torvalds/linux/blob/master/fs/nfs/super.c#L471
     #[cfg(all(
-        target_os = "linux",
+        any(target_os = "linux", target_os = "seele"),
         target_arch = "s390x"
     ))]
     pub fn block_size(&self) -> u32 {
@@ -393,21 +393,21 @@ impl Statfs {
 
     /// Size of a block
     // f_bsize on linux: https://github.com/torvalds/linux/blob/master/fs/nfs/super.c#L471
-    #[cfg(all(target_os = "linux", target_env = "musl", not(target_arch = "s390x")))]
+    #[cfg(all(any(target_os = "linux", target_os = "seele"), target_env = "musl", not(target_arch = "s390x")))]
     pub fn block_size(&self) -> libc::c_ulong {
         self.0.f_bsize
     }
 
     /// Size of a block
     // f_bsize on linux: https://github.com/torvalds/linux/blob/master/fs/nfs/super.c#L471
-    #[cfg(all(target_os = "linux", target_env = "ohos"))]
+    #[cfg(all(any(target_os = "linux", target_os = "seele"), target_env = "ohos"))]
     pub fn block_size(&self) -> libc::c_ulong {
         self.0.f_bsize
     }
 
     /// Size of a block
     // f_bsize on linux: https://github.com/torvalds/linux/blob/master/fs/nfs/super.c#L471
-    #[cfg(all(target_os = "linux", target_env = "uclibc"))]
+    #[cfg(all(any(target_os = "linux", target_os = "seele"), target_env = "uclibc"))]
     pub fn block_size(&self) -> libc::c_int {
         self.0.f_bsize
     }
@@ -415,7 +415,7 @@ impl Statfs {
     /// Size of a block
     // f_bsize on linux: https://github.com/torvalds/linux/blob/master/fs/nfs/super.c#L471
     #[cfg(all(
-        target_os = "linux",
+        any(target_os = "linux", target_os = "seele"),
         not(any(
             target_arch = "s390x",
             target_env = "musl",
